@@ -254,6 +254,10 @@ set(INI_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/externals/inih")
 include_directories(${INI_PREFIX})
 add_subdirectory(${INI_PREFIX})
 
+if (ARCHITECTURE_x86_64)
+    add_subdirectory(externals/xbyak)
+endif()
+
 option(DYNARMIC_TESTS OFF)
 add_subdirectory(externals/dynarmic)
 
