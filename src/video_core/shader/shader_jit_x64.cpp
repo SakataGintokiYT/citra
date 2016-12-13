@@ -137,9 +137,12 @@ static const Xmm NEGBIT = xmm15;
 // State registers that must not be modified by external functions calls
 // Scratch registers, e.g., SRC1 and SCRATCH, have to be saved on the side if needed
 static const BitSet32 persistent_regs = BuildRegSet({
-    SETUP,          STATE,                                       // Pointers to register blocks
-    ADDROFFS_REG_0, ADDROFFS_REG_1, LOOPCOUNT_REG, COND0, COND1, // Cached registers
-    ONE,            NEGBIT,                                      // Constants
+    // Pointers to register blocks
+    SETUP, STATE,
+    // Cached registers
+    ADDROFFS_REG_0, ADDROFFS_REG_1, LOOPCOUNT_REG, COND0, COND1,
+    // Constants
+    ONE, NEGBIT,
 });
 
 /// Raw constant for the source register selector that indicates no swizzling is performed
@@ -320,7 +323,7 @@ void JitShader::Compile_EvaluateCondition(Instruction instr) {
         mov(ebx, COND1);
         xor(eax, (instr.flow_control.refx.Value() ^ 1));
         xor(ebx, (instr.flow_control.refy.Value() ^ 1));
-        or(eax, ebx);
+        or (eax, ebx);
         break;
 
     case Instruction::FlowControlType::And:
@@ -733,7 +736,7 @@ void JitShader::Compile_LOOP(Instruction instr) {
     mov(LOOPCOUNT, dword[SETUP + offset]);
     mov(LOOPCOUNT_REG, LOOPCOUNT);
     shr(LOOPCOUNT_REG, 4);
-    and(LOOPCOUNT_REG, 0xFF0);          // Y-component is the start
+    and(LOOPCOUNT_REG, 0xFF0); // Y-component is the start
     mov(LOOPINC, LOOPCOUNT);
     shr(LOOPINC, 12);
     and(LOOPINC, 0xFF0);                // Z-component is the incrementer
@@ -878,14 +881,12 @@ void JitShader::Compile() {
 
     ready();
 
-    uintptr_t size =
-        reinterpret_cast<uintptr_t>(getCurr()) - reinterpret_cast<uintptr_t>(program);
+    uintptr_t size = reinterpret_cast<uintptr_t>(getCurr()) - reinterpret_cast<uintptr_t>(program);
     ASSERT_MSG(size <= MAX_SHADER_SIZE, "Compiled a shader that exceeds the allocated size!");
     LOG_DEBUG(HW_GPU, "Compiled shader size=%lu", size);
 }
 
-JitShader::JitShader() : Xbyak::CodeGenerator(MAX_SHADER_SIZE) {
-}
+JitShader::JitShader() : Xbyak::CodeGenerator(MAX_SHADER_SIZE) {}
 
 } // namespace Shader
 

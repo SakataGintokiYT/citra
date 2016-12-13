@@ -6,9 +6,9 @@
 
 #include <array>
 #include <cstddef>
-#include <nihstro/shader_bytecode.h>
 #include <utility>
 #include <vector>
+#include <nihstro/shader_bytecode.h>
 #include <xbyak.h>
 #include "common/bit_set.h"
 #include "common/common_types.h"
@@ -104,7 +104,8 @@ private:
     void FindReturnOffsets();
 
     /// Mapping of Pica VS instructions to pointers in the emitted code
-    // TODO(yuriks): instruction_labels already keeps track of this, but xbyak doesn't let us it
+    // TODO(yuriks): `instruction_labels` already keeps track of this, but xbyak doesn't let us
+    //               access it.
     std::array<const u8*, 1024> code_ptr;
     std::array<Xbyak::Label, 1024> instruction_labels;
 

@@ -4,10 +4,9 @@
 
 #pragma once
 
-#include <initializer_list>
+#include <type_traits>
 #include <xbyak.h>
-#include "common/bit_set.h"
-#include "common/assert.h"
+#include "common/x64/xbyak_abi.h"
 
 namespace Common {
 namespace X64 {
@@ -40,6 +39,7 @@ inline void CallFarFunction(Xbyak::CodeGenerator& code, const T f) {
     if (IsWithin2G(code, addr)) {
         code.call(f);
     } else {
+        // ABI_RETURN is a safe temp register to use before a call
         code.mov(ABI_RETURN, addr);
         code.call(ABI_RETURN);
     }

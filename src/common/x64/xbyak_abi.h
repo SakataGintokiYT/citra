@@ -6,8 +6,8 @@
 
 #include <initializer_list>
 #include <xbyak.h>
-#include "common/bit_set.h"
 #include "common/assert.h"
+#include "common/bit_set.h"
 
 namespace Common {
 namespace X64 {
@@ -15,7 +15,7 @@ namespace X64 {
 int RegToIndex(const Xbyak::Reg& reg) {
     using Kind = Xbyak::Reg::Kind;
     ASSERT_MSG((reg.getKind() & (Kind::REG | Kind::XMM)) != 0,
-        "RegSet only support GPRs and XMM registers.");
+               "RegSet only support GPRs and XMM registers.");
     ASSERT_MSG(reg.getIdx() < 16, "RegSet only supports XXM0-15.");
     return reg.getIdx() + (reg.getKind() == Kind::REG ? 0 : 16);
 }
@@ -59,38 +59,21 @@ const Xbyak::Reg ABI_PARAM3 = Xbyak::util::r8;
 const Xbyak::Reg ABI_PARAM4 = Xbyak::util::r9;
 
 const BitSet32 ABI_ALL_CALLER_SAVED = BuildRegSet({
-    Xbyak::util::rcx,
-    Xbyak::util::rdx,
-    Xbyak::util::r8,
-    Xbyak::util::r9,
-    Xbyak::util::r10,
+    // GPRs
+    Xbyak::util::rcx, Xbyak::util::rdx, Xbyak::util::r8, Xbyak::util::r9, Xbyak::util::r10,
     Xbyak::util::r11,
-    Xbyak::util::xmm0,
-    Xbyak::util::xmm1,
-    Xbyak::util::xmm2,
-    Xbyak::util::xmm3,
-    Xbyak::util::xmm4,
+    // XMMs
+    Xbyak::util::xmm0, Xbyak::util::xmm1, Xbyak::util::xmm2, Xbyak::util::xmm3, Xbyak::util::xmm4,
     Xbyak::util::xmm5,
 });
 
 const BitSet32 ABI_ALL_CALLEE_SAVED = BuildRegSet({
-    Xbyak::util::rbx,
-    Xbyak::util::rsi,
-    Xbyak::util::rdi,
-    Xbyak::util::rbp,
-    Xbyak::util::r12,
-    Xbyak::util::r13,
-    Xbyak::util::r14,
-    Xbyak::util::r15,
-    Xbyak::util::xmm6,
-    Xbyak::util::xmm7,
-    Xbyak::util::xmm8,
-    Xbyak::util::xmm9,
-    Xbyak::util::xmm10,
-    Xbyak::util::xmm11,
-    Xbyak::util::xmm12,
-    Xbyak::util::xmm13,
-    Xbyak::util::xmm14,
+    // GPRs
+    Xbyak::util::rbx, Xbyak::util::rsi, Xbyak::util::rdi, Xbyak::util::rbp, Xbyak::util::r12,
+    Xbyak::util::r13, Xbyak::util::r14, Xbyak::util::r15,
+    // XMMs
+    Xbyak::util::xmm6, Xbyak::util::xmm7, Xbyak::util::xmm8, Xbyak::util::xmm9, Xbyak::util::xmm10,
+    Xbyak::util::xmm11, Xbyak::util::xmm12, Xbyak::util::xmm13, Xbyak::util::xmm14,
     Xbyak::util::xmm15,
 });
 
@@ -106,38 +89,19 @@ const Xbyak::Reg ABI_PARAM3 = Xbyak::util::rdx;
 const Xbyak::Reg ABI_PARAM4 = Xbyak::util::rcx;
 
 const BitSet32 ABI_ALL_CALLER_SAVED = BuildRegSet({
-    Xbyak::util::rcx,
-    Xbyak::util::rdx,
-    Xbyak::util::rdi,
-    Xbyak::util::rsi,
-    Xbyak::util::r8,
-    Xbyak::util::r9,
-    Xbyak::util::r10,
-    Xbyak::util::r11,
-    Xbyak::util::xmm0,
-    Xbyak::util::xmm1,
-    Xbyak::util::xmm2,
-    Xbyak::util::xmm3,
-    Xbyak::util::xmm4,
-    Xbyak::util::xmm5,
-    Xbyak::util::xmm6,
-    Xbyak::util::xmm7,
-    Xbyak::util::xmm8,
-    Xbyak::util::xmm9,
-    Xbyak::util::xmm10,
-    Xbyak::util::xmm11,
-    Xbyak::util::xmm12,
-    Xbyak::util::xmm13,
-    Xbyak::util::xmm14,
-    Xbyak::util::xmm15,
+    // GPRs
+    Xbyak::util::rcx, Xbyak::util::rdx, Xbyak::util::rdi, Xbyak::util::rsi, Xbyak::util::r8,
+    Xbyak::util::r9, Xbyak::util::r10, Xbyak::util::r11,
+    // XMMs
+    Xbyak::util::xmm0, Xbyak::util::xmm1, Xbyak::util::xmm2, Xbyak::util::xmm3, Xbyak::util::xmm4,
+    Xbyak::util::xmm5, Xbyak::util::xmm6, Xbyak::util::xmm7, Xbyak::util::xmm8, Xbyak::util::xmm9,
+    Xbyak::util::xmm10, Xbyak::util::xmm11, Xbyak::util::xmm12, Xbyak::util::xmm13,
+    Xbyak::util::xmm14, Xbyak::util::xmm15,
 });
 
 const BitSet32 ABI_ALL_CALLEE_SAVED = BuildRegSet({
-    Xbyak::util::rbx,
-    Xbyak::util::rbp,
-    Xbyak::util::r12,
-    Xbyak::util::r13,
-    Xbyak::util::r14,
+    // GPRs
+    Xbyak::util::rbx, Xbyak::util::rbp, Xbyak::util::r12, Xbyak::util::r13, Xbyak::util::r14,
     Xbyak::util::r15,
 });
 
@@ -172,7 +136,7 @@ size_t ABI_PushRegistersAndAdjustStack(Xbyak::CodeGenerator& code, BitSet32 regs
     s32 subtraction, xmm_offset;
     ABI_CalculateFrameSize(regs, rsp_alignment, needed_frame_size, &subtraction, &xmm_offset);
 
-    for (int reg_index : regs & ABI_ALL_GPRS) {
+    for (int reg_index : (regs & ABI_ALL_GPRS)) {
         code.push(IndexToReg64(reg_index));
     }
 
@@ -180,7 +144,7 @@ size_t ABI_PushRegistersAndAdjustStack(Xbyak::CodeGenerator& code, BitSet32 regs
         code.sub(code.rsp, subtraction);
     }
 
-    for (int reg_index : regs & ABI_ALL_XMMS) {
+    for (int reg_index : (regs & ABI_ALL_XMMS)) {
         code.movaps(code.xword[code.rsp + xmm_offset], IndexToXmm(reg_index));
         xmm_offset += 0x10;
     }
@@ -193,7 +157,7 @@ void ABI_PopRegistersAndAdjustStack(Xbyak::CodeGenerator& code, BitSet32 regs, s
     s32 subtraction, xmm_offset;
     ABI_CalculateFrameSize(regs, rsp_alignment, needed_frame_size, &subtraction, &xmm_offset);
 
-    for (int reg_index : regs & ABI_ALL_XMMS) {
+    for (int reg_index : (regs & ABI_ALL_XMMS)) {
         code.movaps(IndexToXmm(reg_index), code.xword[code.rsp + xmm_offset]);
         xmm_offset += 0x10;
     }
@@ -202,6 +166,7 @@ void ABI_PopRegistersAndAdjustStack(Xbyak::CodeGenerator& code, BitSet32 regs, s
         code.add(code.rsp, subtraction);
     }
 
+    // GPRs need to be popped in reverse order
     for (int reg_index = 15; reg_index >= 0; reg_index--) {
         if (regs[reg_index]) {
             code.pop(IndexToReg64(reg_index));
