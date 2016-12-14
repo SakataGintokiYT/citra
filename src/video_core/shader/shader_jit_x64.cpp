@@ -798,7 +798,6 @@ void JitShader::Compile_NextInstr() {
         Compile_Return();
     }
 
-    code_ptr[program_counter] = getCurr();
     L(instruction_labels[program_counter]);
 
     Instruction instr = GetVertexShaderInstruction(program_counter++);
@@ -843,7 +842,6 @@ void JitShader::Compile() {
     program = (CompiledShader*)getCurr();
     program_counter = 0;
     looping = false;
-    code_ptr.fill(nullptr);
     instruction_labels.fill(Xbyak::Label());
 
     // Find all `CALL` instructions and identify return locations

@@ -35,7 +35,7 @@ public:
     JitShader();
 
     void Run(const ShaderSetup& setup, UnitState<false>& state, unsigned offset) const {
-        program(&setup, &state, code_ptr[offset]);
+        program(&setup, &state, instruction_labels[offset].getAddress());
     }
 
     void Compile();
@@ -104,9 +104,6 @@ private:
     void FindReturnOffsets();
 
     /// Mapping of Pica VS instructions to pointers in the emitted code
-    // TODO(yuriks): `instruction_labels` already keeps track of this, but xbyak doesn't let us
-    //               access it.
-    std::array<const u8*, 1024> code_ptr;
     std::array<Xbyak::Label, 1024> instruction_labels;
 
     /// Offsets in code where a return needs to be inserted
