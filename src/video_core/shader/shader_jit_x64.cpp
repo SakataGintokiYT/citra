@@ -6,6 +6,7 @@
 #include <cmath>
 #include <cstdint>
 #include <nihstro/shader_bytecode.h>
+#include <smmintrin.h>
 #include <xmmintrin.h>
 #include "common/assert.h"
 #include "common/logging/log.h"
